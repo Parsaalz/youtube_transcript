@@ -84,8 +84,11 @@
             <div>
                 <h2 class="text-xl mb-4 font-semibold">Enter Youtube Video Link</h2>
                 <div class="flex space-x-4">
-                    <input id="youtubeLink" type="url" placeholder="Paste Youtube Link..." class="flex-grow p-2 border border-blue-400 rounded-l-md">
-                    <button id="generateBlogButton" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition-colors">Generate</button>
+                    <form action="" method="post" id="myForm">
+                        {% csrf_token %}
+                        <input id="youtubeLink" type="url" placeholder="Paste Youtube Link..." class="flex-grow p-2 border border-blue-400 rounded-l-md" name="youtubelink">
+                        <button id="generateBlogButton" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition-colors" type="submit">Generate</button>
+                    </form>
                 </div>
             </div>
 
@@ -108,44 +111,13 @@
     <footer class="text-center p-4 text-blacl mt-6">
         Powered by ParsaAlizadeh
     </footer>
-
-    <script>
-        document.getElementById('generateBlogButton').addEventListener('click', async () => {
-            
-
-            const youtubeLink = document.getElementById('youtubeLink').value;
-            const blogContent = document.getElementById('blogContent');
-            
-            if(youtubeLink) {
-                document.getElementById('loading-circle').style.display = 'block';
-                
-                blogContent.innerHTML = ''; // Clear previous content
-
-                const endpointUrl = '/generate-blog';
-                
-                try {
-                    const response = await fetch(endpointUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ link: youtubeLink })
-                    });
-
-                    const data = await response.json();
-
-                    blogContent.innerHTML = data.content;
-
-                } catch (error) {
-                    console.error("Error occurred:", error);
-                    alert("Something went wrong. Please try again later.");
-                    
-                }
-                document.getElementById('loading-circle').style.display = 'none';
-            } else {
-                alert("Please enter a YouTube link.");
-            }
+    <!-- <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+          event.preventDefault(); // Prevent the form from being submitted
+        
+          // Redirect to a different URL
+          window.location.href = "generateblog";
         });
-    </script>
+    </script> -->
 </body>
 </html>
